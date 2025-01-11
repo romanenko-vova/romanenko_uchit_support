@@ -1,0 +1,1 @@
+MAINMENU, MAINMENU_ADMIN = range(2)
