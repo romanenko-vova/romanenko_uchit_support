@@ -9,7 +9,7 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-from telegram.constants import ParseMode
+from telegram.constants import ParseMode, ChatType
 from dotenv import load_dotenv
 
 from texts import hello_message, no_user_hello_message
@@ -26,7 +26,8 @@ from constants import (
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(update.effective_chat.id)
+    if update.effective_chat.type == ChatType.GROUP:
+        return ConversationHandler.END
     if update.effective_user.id in context.bot_data['admin_ids']:
         return await admin_menu(update, context)
 

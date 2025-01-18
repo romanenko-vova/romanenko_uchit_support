@@ -3,3 +3,4 @@ def escape_text(text):
     for symbol in symbols:
         text = text.replace(symbol, f'\\{symbol}')
     return text
+

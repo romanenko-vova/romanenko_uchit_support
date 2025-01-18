@@ -24,10 +24,13 @@ from constants import (
     load_students_ids,
 )
 from openai import OpenAI, AsyncOpenAI
-from telegram.constants import ParseMode
+from telegram.constants import ParseMode, ChatType
 
 
 async def gpt_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat.type == ChatType.GROUP:
+        if update.effective_message.text[:7] not in ['Вопрос.', 'вопрос.']:
+            return
     if update.effective_user.id not in context.bot_data['student_ids']:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -35,12 +38,17 @@ async def gpt_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode=ParseMode.MARKDOWN_V2,
         )
         return 
+    user_text = update.effective_message.text
+    if update.effective_chat.type == ChatType.GROUP:
+        user_text = user_text[7:]
+        if user_text[0] == ' ':
+            user_text = user_text[1:]
     
     client = AsyncOpenAI()
     messages = [
-        {"role": "developer", "content": [{"type": "text", "text": "Ты помощник репетитора по программированию и математике. В ответах, где ты хочешь вставить формулу, не пиши формулы в формате latex, а просто пиши выражение в виде: 2x*(3x-5)^2. Обычная замена уравнение символами. Перед * ставь пожалуйста \\"}]},
+        {"role": "developer", "content": [{"type": "text", "text": "Ты помощник репетитора по программированию и математике. В ответах, где ты хочешь вставить формулу, не пиши формулы в формате latex, а просто пиши выражение в виде: 2x*(3x-5)^2. Обычная замена уравнение символами. Перед * ставь пожалуйста \\."}]},
     ]
-    user_text = update.effective_message.text
+    
 
     if context.chat_data.get("previous_message"):
         messages.append(
