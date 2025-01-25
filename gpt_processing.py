@@ -12,7 +12,7 @@ from telegram.constants import ChatType
 
 
 async def gpt_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_chat.type == ChatType.GROUP:
+    if update.effective_chat.type == ChatType.GROUP or update.effective_chat.id < 0:
         if update.effective_message.text[:7] not in ["Вопрос.", "вопрос."]:
             return
     if update.effective_user.id not in context.bot_data["student_ids"]:
