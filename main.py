@@ -1,19 +1,14 @@
-import logging
 import os
-from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
-    ContextTypes,
     CommandHandler,
     ConversationHandler,
     MessageHandler,
     filters,
     CallbackQueryHandler,
 )
-from telegram.constants import ParseMode
 from dotenv import load_dotenv
 
-from texts import hello_message
 
 from callbacks import (
     start,
@@ -22,7 +17,6 @@ from callbacks import (
     get_admin_students_ids,
     get_add_replace_answer,
 )
-from my_logging import logger
 from constants import (
     MAINMENU,
     MAINMENU_ADMIN,

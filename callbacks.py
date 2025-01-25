@@ -1,16 +1,9 @@
-import logging
-import os
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (
-    ApplicationBuilder,
     ContextTypes,
-    CommandHandler,
     ConversationHandler,
-    MessageHandler,
-    filters,
 )
 from telegram.constants import ParseMode, ChatType
-from dotenv import load_dotenv
 
 from texts import hello_message, no_user_hello_message
 from support_func import escape_text
